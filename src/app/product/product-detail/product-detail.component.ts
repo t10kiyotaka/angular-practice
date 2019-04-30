@@ -12,7 +12,7 @@ export class ProductDetailComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    this.product = new Product(1, 'Angular入門書', 3800, 'An An Angular!!')
+    this.product = new Product(1, 'Angular入門書', 3800, 'From Beginner to Expert')
   }
 
 }
