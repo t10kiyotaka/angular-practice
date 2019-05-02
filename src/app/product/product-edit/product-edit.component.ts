@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Product } from '../../shared/models/product';
 import { ProductService } from '../../shared/services/product.service'; 
 import { ActivatedRoute, Params, Router } from '@angular/router';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 
 
 @Component({
@@ -14,7 +14,7 @@ export class ProductEditComponent implements OnInit {
   productForm = this.fb.group({
     id: [''],
     name: [''],
-    price: [''],
+    price: ['', Validators.min(100)],
     description: [''],
   });
 
@@ -24,6 +24,9 @@ export class ProductEditComponent implements OnInit {
     private fb: FormBuilder,
     private productService: ProductService,
   ) { }
+
+  get name() { return this.productForm.get('name'); }
+  get price() { return this.productForm.get('price'); }
 
   ngOnInit() {
     this.route.params.subscribe((params: Params) => {
@@ -39,9 +42,11 @@ export class ProductEditComponent implements OnInit {
   }
 
   saveProduct(): void {
-    const { id, name, price, description } = this.productForm.getRawValue();
-    this.productService.update(new Product(id, name, price, description));
-    this.router.navigate(['/products', this.productForm.controls.id.value]);
+    if (this.productForm.valid) {
+      const { id, name, price, description } = this.productForm.getRawValue();
+      this.productService.update(new Product(id, name, price, description));
+      this.router.navigate(['/products', this.productForm.controls.id.value]);
+    }
   }
 
 }
