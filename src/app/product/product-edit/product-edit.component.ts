@@ -33,7 +33,7 @@ export class ProductEditComponent implements OnInit {
     this.route.params.subscribe((params: Params) => {
       this.productService.get(params['id']).subscribe((product: Product) => {
         this.productForm.setValue({
-          id: product.id,
+          id: product.key,
           name: product.name,
           price: product.price,
           description: product.description,
